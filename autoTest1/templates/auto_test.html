@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/event_manage/">AUTO_TEST</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav navbar-right">
+           <li><a href="#">{{user}}</a></li>
+           <li><a href="/logout/">退出</a></li>
+         </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container theme-showcase" role="main">
+
+      <!--发布会表单-->
+      <div class="row">
+            <div class="tm-3-col-container" >
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 tm-3-col-textbox">
+                        <div class="text-xs-left tm-textbox tm-textbox-padding tm-bg-white-translucent tm-3-col-textbox-inner">
+                            <i class="fa fa-4x fa-pagelines tm-home-fa"></i>
+                            <h2 class="tm-text-title">UItest</h2>
+                            <a href="/object_list/" target="_blank">在这里建立你想要的自动化脚本</a>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 tm-3-col-textbox">
+                        <div class="text-xs-left tm-textbox tm-textbox-padding tm-bg-white-translucent tm-3-col-textbox-inner">
+                            <i class="fa fa-4x fa-bicycle tm-home-fa"></i>
+                            <h2 class="tm-text-title">Welcome!</h2>
+                            <p class="tm-text">There are 3 different gallaries in this template. You can customize them in any suitable way you prefer. You can also modify the content columns as you wish. Images are from Unsplash website. Good Luck!</p>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 tm-3-col-textbox">
+                        <div class="text-xs-left tm-textbox tm-textbox-padding tm-bg-white-translucent tm-3-col-textbox-inner">
+                            <i class="fa fa-4x fa-plane tm-home-fa"></i>
+                            <h2 class="tm-text-title">Stay relaxed</h2>
+                            <p class="tm-text">You can easily change icons in HTML codes by <a href="http://fontawesome.io/icons/" target="_parent">Font Awesome</a>. Praesent tempus dapibus. Curabitur sodales, est auctor congue vulputate, nisl tellus finibus nunc, vitae consectetur enim.</p>
+                        </div>
+                    </div>
+            </div>
+      </div>
+
+{% endblock %}

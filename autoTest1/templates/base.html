@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+      {% load static%}
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <link rel="icon" href="../../favicon.ico">
+
+      <title>AUTO_TEST</title>
+
+      <!-- Bootstrap core CSS -->
+      <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+      <!-- Custom styles for this template -->
+      <link href="//v3.bootcss.com/examples/theme/theme.css" rel="stylesheet">
+      <link href="{% static 'bootstrap/css/bootstrap-editable.css' %}" rel="stylesheet">
+      <link href="{% static 'bootstrap/css/bootstrap-table.min.css' %}" rel="stylesheet">
+
+      <script type="text/javascript">
+        {% block head_script %}
+
+        {% endblock %}
+      </script>
+
+  </head>
+
+  <body role="document">
+
+  {% block content %}
+
+
+  {% endblock %}
+    <div class="container theme-showcase" role="main">
+
+        <div class="page-header">
+        </div>
+        <footer class="footer">
+          <p>&copy; author:caozj</p>
+        </footer>
+
+    </div> <!-- /container -->
+
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+  <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'bootstrap/js/bootstrap-editable.js' %}"></script>
+  <script src="{% static 'bootstrap/js/bootstrap-table.js' %}"></script>
+  <script src="{% static 'bootstrap/js/bootstrap-table-zh-CN.js' %}"></script>
+  <script src="{% static 'bootstrap/js/bootstrap-table-editable.js' %}"></script>
+  <script src="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.js"></script>
+{% block script %}
+  <script type="text/javascript">
+
+
+
+  </script>
+{% endblock %}
+  </body>
+
+
+</html>

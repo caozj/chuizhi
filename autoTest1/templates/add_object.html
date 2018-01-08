@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- 导航栏 -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/event_manage/">AUTO_TEST</a>
+        </div>
+{#        <div id="navbar" class="collapse navbar-collapse">#}
+{#          <ul class="nav navbar-nav">#}
+{#            <li class="active"><a href="#">发布会</a></li>#}
+{#            <li><a href="/guest_manage/">嘉宾</a></li>#}
+{#          </ul>#}
+          <ul class="nav navbar-nav navbar-right">
+           <li><a href="#">{{user}}</a></li>
+           <li><a href="/logout/">退出</a></li>
+         </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+<div class="breadcrumbs">
+<a href="/admin/">首页</a>
+&rsaquo; <a href="/admin/UItest1/">Uitest1</a>
+&rsaquo; <a href="/admin/UItest1/object/">Objects</a>
+&rsaquo; 增加 object
+</div>
+
+
+
+
+
+
+
+    <!-- Content -->
+    <div id="content" class="colM">
+
+        <h1>增加 object</h1>
+        <div id="content-main">
+
+
+
+<form enctype="multipart/form-data" action="" method="post" id="object_form" novalidate><input type='hidden' name='csrfmiddlewaretoken' value='pijAqWyYD3zD4bpQYoRAItpMkbWtmvQeNu8SJ9exG3EhEZWQG74Ma2oShfvz4EP9' />
+<div>
+
+
+
+
+
+
+
+  <fieldset class="module aligned ">
+
+
+
+        <div class="form-row field-ob_name">
+
+
+                <div>
+
+
+                        <label class="required" for="id_ob_name">Ob name:</label>
+
+                            <input class="TextField" id="id_ob_name" maxlength="100" name="ob_name" type="text" required />
+
+
+
+                </div>
+
+        </div>
+
+        <div class="form-row field-yn">
+
+
+                <div>
+
+
+                        <label class="required" for="id_yn">Yn:</label>
+
+                            <input class="vIntegerField" id="id_yn" name="yn" type="text" required />
+
+
+
+                </div>
+
+        </div>
+
+        <div class="form-row field-tester">
+
+
+                <div>
+
+
+                        <label class="required" for="id_tester">Tester:</label>
+
+
+<div class="related-widget-wrapper">
+    <select id="id_tester" name="tester" required>
+<option value="" selected="selected">---------</option>
+<option value="1">张银屏</option>
+<option value="2">caozijian</option>
+</select>
+
+
+        <a class="related-widget-wrapper-link change-related" id="change_id_tester"
+            data-href-template="/admin/UItest1/tester/__fk__/change/?_to_field=id&amp;_popup=1"
+            title="更改选中的tester">
+            <img src="/static/admin/img/icon-changelink.svg" alt="修改"/>
+        </a>
+
+
+        <a class="related-widget-wrapper-link add-related" id="add_id_tester"
+            href="/admin/UItest1/tester/add/?_to_field=id&amp;_popup=1"
+            title="增加另一个 tester">
+            <img src="/static/admin/img/icon-addlink.svg" alt="增加"/>
+        </a>
+
+
+
+</div>
+
+
+
+
+                </div>
+
+        </div>
+
+        <div class="form-row field-ob_content">
+
+
+                <div>
+
+
+                        <label class="required" for="id_ob_content">Ob content:</label>
+
+                            <input class="vTextField" id="id_ob_content" maxlength="200" name="ob_content" type="text" required />
+
+
+
+                </div>
+
+        </div>
+
+</fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="submit-row">
+<input type="submit" value="保存" class="default" name="_save" />
+
+
+<input type="submit" value="保存并增加另一个" name="_addanother" />
+<input type="submit" value="保存并继续编辑" name="_continue" />
+</div>
+
+
+
+    <script type="text/javascript"
+            id="django-admin-form-add-constants"
+            src="/static/admin/js/change_form.js"
+
+                data-model-name="object"
+            >
+    </script>
+
+
+
+
+<script type="text/javascript"
+        id="django-admin-prepopulated-fields-constants"
+        src="/static/admin/js/prepopulate_init.js"
+        data-prepopulated-fields="[]">
+</script>
+
+
+</div>
+</form></div>
+
+
+        <br class="clear" />
+    </div>
+    <!-- END Content -->
+
+    <div id="footer"></div>
+</div>
+<!-- END Container -->
+
+</body>
+</html>
+
+{% endblock %}

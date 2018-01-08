@@ -1,0 +1,349 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" xmlns="http://www.w3.org/1999/html">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/event_manage/">AUTO_TEST</a>
+            </div>
+            {#        <div id="navbar" class="collapse navbar-collapse">#}
+            {#          <ul class="nav navbar-nav">#}
+            {#            <li class="active"><a href="#">发布会</a></li>#}
+            {#            <li><a href="/guest_manage/">嘉宾</a></li>#}
+            {#          </ul>#}
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">{{ object_name }}</a></li>
+                <li><a href="#">项目ID_{{ object_id }}</a></li>
+                <li><a href="#">{{ user }}</a></li>
+                <li><a href="/logout/">退出</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+
+    <div class="container theme-showcase" role="main">
+
+    <!--发布会表单-->
+    <div class="page-header">
+        <div id="navbar" class="navbar-collapse collapse">
+            <form class="navbar-form" method="get" action="/search_name/">
+                <div class="form-group">
+                    <input name="name" type="text" placeholder="名称" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-success">搜索</button>
+            </form>
+        </div><!--/.navbar-collapse -->
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <table class="table table-striped" data-toggle="table" id="block_list">
+                {#            <thead>#}
+                {#              <tr>#}
+                {#                <th>id</th>#}
+                {#                <th>项目名称</th>#}
+                {#                <th>项目描述</th>#}
+                {#                <th>创建/修改人</th>#}
+                {#                <th>创建/修改时间</th>#}
+                {#                <th>是否可用</th>#}
+                {#              </tr>#}
+                {#            </thead>#}
+                {#            <tbody>#}
+                {#              {% for object in object_list %}#}
+                {#                <tr>#}
+                {#                  <td>{{ object.id }}</td>#}
+                {#                  <td>{{ object.ob_name }}</td>#}
+                {#                  <td>{{ object.ob_content }}</td>#}
+                {#                  <td>{{ object.tester }}</td>#}
+                {#                  <td>{{ object.ob_mf_time }}</td>#}
+                {#                  <td>{{ object.yn }}</td>#}
+                {##}
+                {#                </tr>#}
+                {#             {% endfor %}#}
+                {#            </tbody>#}
+            </table>
+            <p></p>
+            <button id="add_block" type="button" class="btn btn-default" onclick="add_block()"><span
+                    class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+            </button>
+            <button id="save_block_sn" type="button" class="btn btn-default" onclick="save_block_sn()"><span
+                    class="glyphicon glyphicon-plus" aria-hidden="true"></span>保存排序
+            </button>
+            <button id="start_blocks" type="button" class="btn btn-default" onclick="start_blocks()"><span
+                    class="glyphicon glyphicon-plus" aria-hidden="true"></span>开始执行
+            </button>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        {#定义加载函数#}
+        function load_table() {
+            $('#block_list').bootstrapTable({
+                method: 'POST',
+                dataType: 'json',
+                contentType: "application/x-www-form-urlencoded",
+                cache: false,
+                striped: true,                       //是否显示行间隔色
+                sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                showColumns: true,
+                showRefresh: true,
+                pagination: true,
+                minimumCountColumns: 2,
+                pageNumber: 1,                       //初始化加载第一页，默认第一页
+                pageSize: 10,                       //每页的记录行数（*）
+                pageList: [10, 15, 20, 25],        //可供选择的每页的行数（*）
+                uniqueId: "id",                     //每一行的唯一标识，一般为主键列
+                showExport: true,
+                exportDataType: 'all',
+                exportTypes: ['csv', 'txt', 'sql', 'doc', 'excel', 'xlsx', 'pdf'],  //导出文件类型
+                data: [
+
+                    {% for block in block_list %}
+                        {
+                            {#                    sn:'{{ forloop.counter }}',#}
+                            sn: '{{ block.bk_sequence }}',
+                            id: '{{ block.id }}',
+                            boject: '{{ block.boject }}',
+                            bk_name: '{{ block.bk_name }}',
+                            bk_content: '{{ block.bk_content }}',
+                            tester: '{{ block.tester }}',
+                            bk_mf_time: '{{ block.bk_mf_time }}',
+                            bk_publick_YN: '{{ block.bk_publick_YN }}',
+                            yn: '{{ block.yn }}',
+                            active: '<button id="btn_add" type="button" class="btn btn-default" onclick="delete_block(this)"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>删除</button> <button id="step_button" type="button" class="btn btn-default" onclick="step_button(this)">步骤</button>'
+                        },
+                    {% endfor %}
+
+                ],
+                columns: [
+                    {
+                        field: 'sn',
+                        title: '行号'
+                    }, {
+                        field: 'id',
+                        title: 'ID'
+                    }, {
+                        field: 'bk_name',
+                        title: '模块名',
+                        editable: {
+                            type: 'text',
+                            validate: function (value) {
+                                if ($.trim(value) == '') {
+                                    return '模块名不能为空!';
+                                }
+                            }
+                        }
+                    }, {
+                        field: 'bk_content',
+                        title: '模块内容',
+                        editable: {
+                            type: 'text'
+                        }
+                    }, {
+                        field: 'tester',
+                        title: '操作人',
+
+                    }, {
+                        field: 'bk_mf_time',
+                        title: '修改时间',
+                    }, {
+                        field: 'bk_publick_YN',
+                        title: '是否公用',
+                        editable: {
+                            type: 'select',
+                            pk: 1,
+                            source: [
+                                {value: 1, text: '1'},
+                                {value: 0, text: '0'},
+                            ]
+                        }
+                    }, {
+                        field: 'yn',
+                        title: '是否可用',
+                        editable: {
+                            type: 'select',
+                            pk: 1,
+                            source: [
+                                {value: 1, text: '1'},
+                                {value: 0, text: '0'},
+                            ]
+                        }
+                    }, {
+                        field: 'active',
+                        title: '操作',
+                    }],
+                {#当行数据变动时的保存操作#}
+                onEditableSave: function (field, row, oldValue, $el) {
+                    {#            alert(field +'++++++'+ row.value +'+++++++'+oldValue +'+++++'+ $el)//打印一些实验信息 #}
+                    $.ajax({
+                        type: "post",
+                        contentType: "application/x-www-form-urlencoded",
+                        url: "/edit_block/",
+                        data: {"field": field, "row": JSON.stringify(row), csrfmiddlewaretoken: '{{ csrf_token }}'},
+                        success: function (data, status) {
+                            if (status == "success") {
+                                if (data == "ok") {
+                                //    alert("修改成功");
+                                }
+                                if (data == "null_id") {
+                                }
+                            }
+                        },
+                        error: function () {
+                            alert("Error");
+                        },
+                        complete: function () {
+
+                        }
+                    });
+                }
+            });
+            {#可拖动效果 jquery-ui.js 实现#}
+            $("#block_list tbody").attr({id: "block_list_id"});
+            $("#block_list_id").sortable();
+        }
+        {#执行加载函数，加载表格#}
+        load_table();
+        {#点击增加按钮，增加模块儿#}
+        function add_block() {
+            $('#block_list').bootstrapTable('insertRow', {
+                index: 0,
+                row: {
+                    sn: 99999,
+                    id: '',
+                    boject: '{{ block.boject }}',
+                    bk_name: 'new_block',
+                    bk_content: 'block_contant',
+                    tester: '{{ block.tester }}',
+                    bk_mf_time: '',
+                    bk_publick_YN: 1,
+                    yn: 1,
+                    active: '<button id="btn_add" type="button" class="btn btn-default" onclick="delete_block(this)"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>删除</button> <button id="btn_add" type="button" class="btn btn-default" onclick="block_list(this)"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>模块</button>'
+                }
+
+            });
+
+            $.ajax({
+                type: "post",
+                contentType: "application/x-www-form-urlencoded",
+                url: "/add_block/",
+                data: {'object_id':{{ object_id }}, csrfmiddlewaretoken: '{{ csrf_token }}'},
+                success: function (data, status) {
+                    console.log(status)
+                    if (status == "success") {
+                        if (data == "ok") {
+                            {#                    $('#block_list').bootstrapTable('refresh');#}
+                            window.location.reload();
+                        }
+                    }
+                },
+                error: function () {
+                    alert("Error");
+                },
+                complete: function () {
+
+                }
+            });
+
+        }
+
+        {#点击删除按钮，删除模块儿#}
+        function delete_block(obj) {
+
+            var row = $('#block_list').bootstrapTable('removeByIndex', $(obj).parent().parent().attr('data-index'));
+            {# 页面上删除行，并返回行信息。删除按钮父节点的父节点-tr行标签，的dita-index属性；removeByIndex方法是新增了bootstrap-editable 中的方法通过index属性获取行信息#}
+            var a = $.ajax({
+                type: "post",
+                contentType: "application/x-www-form-urlencoded",
+                url: "/delete_block/",
+                data: {"row": JSON.stringify(row), csrfmiddlewaretoken: '{{ csrf_token }}'},
+                success: function (data, status) {
+                    if (status == "success") {
+                        if (data == "ok") {
+                            alert("删除成功");
+                        }
+                        if (data == "null") {
+                        }
+                    }
+                },
+                error: function () {
+                    alert("出错了");
+                },
+                complete: function () {
+
+                }
+            });
+
+        }
+
+        {#点击步骤按钮#}
+        function step_button(obj) {
+            var id = $(obj).parent().parent().children("td:eq(1)").text();
+            var url = "/step_list/" + id;
+            window.open(url);
+
+        }
+
+        {#保存排序#}
+        function save_block_sn(obj) {
+            var table_length = $("#block_list_id tr").length;
+            var sn_json = {};
+            for (var i = 1; i <= table_length; i++) {
+                sn_json[i] = $("#block_list_id tr").eq(i - 1).find("td:eq(1)").text();
+                //alert(JSON.stringify(sn_json))
+            }
+            ;
+
+            $.ajax({
+                type: "post",
+                contentType: "application/x-www-form-urlencoded",
+                url: "/save_block_sn/",
+
+                data: {"sn_json": JSON.stringify(sn_json), csrfmiddlewaretoken: '{{ csrf_token }}'},
+                success: function (data, status) {
+                    if (status == "success") {
+                        if (data == "ok") {
+                            alert("更新顺序成功");
+                        }
+                        window.location.reload();
+                    }
+                },
+                error: function () {
+                    alert("出错了");
+                },
+                complete: function () {
+
+                }
+            });
+        }
+
+            {#开始执行步骤#}
+        function start_blocks(obj) {
+            $.ajax({
+                type: "get",
+                contentType: "application/x-www-form-urlencoded",
+                url: "/start_blocks/{{ object_id }}",
+                success: function (data, status) {
+                    if (status == "success") {
+                        if (data == "ok") {
+                            alert("执行完毕");
+                        }
+                    }
+                },
+                error: function () {
+                    alert("出错了");
+                },
+                complete: function () {
+
+                }
+            });
+        }
+
+    </script>
+{% endblock %}

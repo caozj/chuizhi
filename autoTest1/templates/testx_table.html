@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <a href="#" id="username" data-type="text" data-title="用户名">用户名</a>
+{% endblock %}
+
+{% block script %}
+
+    $(function () {
+        $('#username').editable();
+    });
+{% endblock %}
